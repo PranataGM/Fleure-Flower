@@ -17,6 +17,9 @@ class Product extends Model {
     }
 
     public function getImageUrlAttribute(): string {
+        if (str_starts_with($this->image, 'http')) {
+            return $this->image;
+        }
         return asset('storage/products/' . $this->image);
     }
 

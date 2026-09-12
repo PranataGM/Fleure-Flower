@@ -52,7 +52,7 @@
                 <div class="space-y-3 text-sm mb-6">
                     @foreach($cart as $item)
                     <div class="flex gap-3 items-start">
-                        <img src="{{ asset('storage/products/' . $item['image']) }}" class="w-12 h-14 object-cover bg-gray-100 shrink-0">
+                        <img src="{{ str_starts_with($item['image'], 'http') ? $item['image'] : asset('storage/products/' . $item['image']) }}" class="w-12 h-14 object-cover bg-gray-100 shrink-0">
                         <div class="flex-1">
                             <p class="text-xs font-medium text-gray-800 leading-snug">{{ $item['name'] }}</p>
                             <p class="text-[10px] text-gray-400 mt-0.5">× {{ $item['qty'] }}</p>

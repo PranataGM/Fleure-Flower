@@ -11,14 +11,14 @@
     <script>
         tailwind.config = {
             theme: { extend: {
-                colors: { 'dg': '#1d2e24', 'mg': '#2a4334', 'cr': '#F4F1EA' },
+                colors: { 'dg': '#1d2e24', 'mg': '#2a4334', 'cr': '#FAFAFA' },
                 fontFamily: { playfair: ['"Playfair Display"', 'serif'], sans: ['"Montserrat"', 'sans-serif'] }
             }}
         }
     </script>
     <style>
         html { scroll-behavior:smooth; }
-        body { font-family:'Montserrat',sans-serif; background:#FAF9F6; color:#333; overflow-x:hidden; }
+        body { font-family:'Montserrat',sans-serif; background:#FFFFFF; color:#333; overflow-x:hidden; }
         h1,h2,h3,h4 { font-family:'Playfair Display',serif; }
         .btn-primary { display:inline-block; background:#1d2e24; color:#fff; padding:14px 32px; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600; transition:background .3s; }
         .btn-primary:hover { background:#2a4334; }
@@ -65,11 +65,11 @@
     </div>
     <div id="mob-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
         <div class="px-4 py-5 space-y-1">
-            <a href="{{ route('home') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-house"></i> Beranda</a>
-            <a href="{{ route('koleksi') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-flower"></i> Koleksi</a>
-            <a href="{{ route('home') }}#tentang" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-info"></i> Tentang Kami</a>
-            <a href="{{ route('home') }}#kontak" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-map-pin"></i> Kontak</a>
-            <a href="{{ route('cart') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-shopping-bag"></i> Keranjang @if($cartCount > 0)({{ $cartCount }})@endif</a>
+            <a href="{{ route('home') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-gray-50 rounded"><i class="ph ph-house"></i> Beranda</a>
+            <a href="{{ route('koleksi') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-gray-50 rounded"><i class="ph ph-flower"></i> Koleksi</a>
+            <a href="{{ route('home') }}#tentang" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-gray-50 rounded"><i class="ph ph-info"></i> Tentang Kami</a>
+            <a href="{{ route('home') }}#kontak" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-gray-50 rounded"><i class="ph ph-map-pin"></i> Kontak</a>
+            <a href="{{ route('cart') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-gray-50 rounded"><i class="ph ph-shopping-bag"></i> Keranjang @if($cartCount > 0)({{ $cartCount }})@endif</a>
             @if($s)<div class="pt-3"><a href="https://wa.me/{{ ltrim($s->whatsapp,'0') }}" class="flex items-center justify-center gap-2 bg-[#1d2e24] text-white py-3 text-[11px] font-bold uppercase tracking-widest"><i class="ph ph-whatsapp-logo"></i> Hubungi Kami</a></div>@endif
         </div>
     </div>

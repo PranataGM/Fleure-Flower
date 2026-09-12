@@ -4,8 +4,8 @@
 
 {{-- HERO --}}
 <section class="relative h-[calc(100vh-96px)] min-h-[560px] overflow-hidden">
-    <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?q=80&w=2000" alt="Hero" class="absolute inset-0 w-full h-full object-cover">
-    <div class="absolute inset-0 bg-gradient-to-r from-[#1d2e24]/85 via-[#1d2e24]/45 to-transparent"></div>
+    <img src="https://images.unsplash.com/photo-1520763185298-1b434c919102?q=80&w=2000" alt="Hero" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
     <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
         <div class="max-w-xl text-white">
             <p class="text-[10px] tracking-[0.3em] uppercase font-semibold text-green-200 mb-6">Toko Bunga Premium</p>
@@ -32,7 +32,7 @@
 
 {{-- DESAIN TERBARU --}}
 @if($newProducts->count() > 0)
-<section class="py-20 bg-[#F4F1EA]">
+<section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-end justify-between mb-10">
             <div>
@@ -136,7 +136,7 @@
 @endif
 
 {{-- TENTANG KAMI --}}
-<section id="tentang" class="bg-[#F4F1EA] border-y border-gray-100">
+<section id="tentang" class="bg-white border-y border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row items-stretch">
             <div class="w-full md:w-1/2 img-wrap h-72 md:h-[520px]">
@@ -182,7 +182,7 @@
 </section>
 
 {{-- KONTAK & MAPS --}}
-<section id="kontak" class="py-24 bg-[#F4F1EA] border-t border-gray-200">
+<section id="kontak" class="py-24 bg-white border-t border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <p class="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-semibold mb-4">Temukan & Hubungi Kami</p>

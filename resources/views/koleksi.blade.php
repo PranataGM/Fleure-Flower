@@ -2,7 +2,7 @@
 @section('title','Koleksi Kami')
 @section('content')
 
-<div class="bg-[#F4F1EA] pt-20 pb-16 text-center px-4 border-b border-gray-200">
+<div class="bg-[#FAFAFA] pt-20 pb-16 text-center px-4 border-b border-gray-200">
     <p class="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-semibold mb-4">Temukan Pilihan Anda</p>
     <h1 class="text-4xl md:text-5xl font-playfair text-[#1d2e24] mb-6">Semua Koleksi</h1>
     <p class="text-gray-600 font-light text-sm leading-relaxed max-w-lg mx-auto">Jelajahi seluruh koleksi buket, fresh flower, dan kartu ucapan kami yang dirangkai khusus untuk setiap momen spesial.</p>
