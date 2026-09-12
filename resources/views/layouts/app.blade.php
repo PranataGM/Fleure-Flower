@@ -119,8 +119,8 @@
                 </ul>
             </div>
         </div>
-        <div class="mt-14 pt-8 border-t border-[#2a4334] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. Seluruh hak cipta dilindungi.</p>
+        <div class="mt-14 pt-8 border-t border-[#2a4334] text-center text-xs text-gray-500">
+            <p>&copy; 2026 {{ config('app.name') }}. Seluruh hak cipta dilindungi.</p>
         </div>
     </div>
 </footer>
