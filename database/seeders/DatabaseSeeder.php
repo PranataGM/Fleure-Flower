@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'category' => 'fresh_flower',
                 'description' => 'Mawar putih premium segar yang melambangkan kemurnian dan ketulusan, cocok untuk dekorasi rumah minimalis.',
                 'price' => 400000,
-                'image' => 'https://images.unsplash.com/photo-1513619574244-a0eb867ee656?q=80&w=800',
+                'image' => 'https://images.pexels.com/photos/59999/white-rose-rose-white-bloom-59999.jpeg?auto=compress&cs=tinysrgb&w=800',
                 'status' => 'available'
             ],
             [
