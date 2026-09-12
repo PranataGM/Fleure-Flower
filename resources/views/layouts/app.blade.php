@@ -50,6 +50,29 @@
                 <a href="{{ route('home') }}#kontak" class="text-[11px] tracking-[0.14em] uppercase font-semibold text-gray-600 border-b-2 border-transparent hover:text-[#1d2e24] hover:border-[#1d2e24] py-2 transition-all">Kontak</a>
             </div>
             <div class="hidden md:flex items-center gap-5">
+                @auth
+                    <div class="relative group">
+                        <button class="text-gray-600 hover:text-[#1d2e24] transition flex items-center gap-1">
+                            @if(auth()->user()->avatar)
+                                <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="w-6 h-6 rounded-full">
+                            @else
+                                <i class="ph ph-user text-xl"></i>
+                            @endif
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white border border-gray-100 shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="px-4 py-3 border-b border-gray-50">
+                                <p class="text-xs font-semibold text-[#1d2e24] truncate">{{ auth()->user()->name }}</p>
+                            </div>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-3 text-xs text-red-600 hover:bg-gray-50 transition"><i class="ph ph-sign-out mr-1"></i> Keluar</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-[#1d2e24] transition" title="Login"><i class="ph ph-user text-xl"></i></a>
+                @endauth
+                
                 <a href="{{ route('cart') }}" class="relative text-gray-600 hover:text-[#1d2e24] transition" id="cart-icon-container">
                     <i class="ph ph-shopping-bag text-xl" id="cart-icon" style="transition: transform 0.3s ease;"></i>
                     <span id="cart-badge" class="absolute -top-2 -right-2 bg-[#1d2e24] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center {{ $cartCount > 0 ? '' : 'hidden' }}">{{ $cartCount }}</span>

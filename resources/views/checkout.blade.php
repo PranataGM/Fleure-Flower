@@ -13,7 +13,7 @@
                     <div class="space-y-5">
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Nama Lengkap *</label>
-                            <input type="text" name="customer_name" value="{{ old('customer_name') }}" required class="w-full border @error('customer_name') border-red-400 @else border-gray-300 @enderror px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
+                            <input type="text" name="customer_name" value="{{ old('customer_name') ?? auth()->user()?->name }}" required class="w-full border @error('customer_name') border-red-400 @else border-gray-300 @enderror px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
                             @error('customer_name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                         </div>
                         <div>
@@ -23,7 +23,7 @@
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Email (Opsional)</label>
-                            <input type="email" name="customer_email" value="{{ old('customer_email') }}" class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
+                            <input type="email" name="customer_email" value="{{ old('customer_email') ?? auth()->user()?->email }}" class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Kota *</label>
