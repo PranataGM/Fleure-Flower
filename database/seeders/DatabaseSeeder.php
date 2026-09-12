@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                 'whatsapp' => '6281234567890',
                 'instagram' => '@fleure.flower',
                 'address' => 'Jl. Mawar Indah No. 123, Yogyakarta',
-                'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x2e7a5787bd5b6bc5%3A0x217d87bd75ebbb1!2sYogyakarta!5e0!3m2!1sen!2sid!4v1689304928372!5m2!1sen!2sid" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe>'
+                'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d17893.25846237197!2d110.31692326068877!3d-7.747202083637462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59db7be5b001%3A0x1c68e90a1a6658b2!2sAlifia%20florist!5e1!3m2!1sid!2sid!4v1789251980723!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>'
             ]
         );
 
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'category' => 'fresh_flower',
                 'description' => 'Mawar putih premium segar yang melambangkan kemurnian dan ketulusan, cocok untuk dekorasi rumah minimalis.',
                 'price' => 400000,
-                'image' => 'https://images.unsplash.com/photo-1508611139194-e8ba95d436c6?q=80&w=800',
+                'image' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800',
                 'status' => 'available'
             ],
             [
