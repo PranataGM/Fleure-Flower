@@ -50,11 +50,9 @@
                 <a href="{{ route('home') }}#kontak" class="text-[11px] tracking-[0.14em] uppercase font-semibold text-gray-600 border-b-2 border-transparent hover:text-[#1d2e24] hover:border-[#1d2e24] py-2 transition-all">Kontak</a>
             </div>
             <div class="hidden md:flex items-center gap-5">
-                <a href="{{ route('cart') }}" class="relative text-gray-600 hover:text-[#1d2e24] transition">
-                    <i class="ph ph-shopping-bag text-xl"></i>
-                    @if($cartCount > 0)
-                    <span class="absolute -top-2 -right-2 bg-[#1d2e24] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{{ $cartCount }}</span>
-                    @endif
+                <a href="{{ route('cart') }}" class="relative text-gray-600 hover:text-[#1d2e24] transition" id="cart-icon-container">
+                    <i class="ph ph-shopping-bag text-xl" id="cart-icon" style="transition: transform 0.3s ease;"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-[#1d2e24] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center {{ $cartCount > 0 ? '' : 'hidden' }}">{{ $cartCount }}</span>
                 </a>
                 @if($s)
                 <a href="https://instagram.com/{{ ltrim($s->instagram,'@') }}" target="_blank" class="text-gray-600 hover:text-[#1d2e24] transition"><i class="ph ph-instagram-logo text-xl"></i></a>
@@ -129,9 +127,81 @@
 <script>
 (function(){
     const btn=document.getElementById('mob-btn'),menu=document.getElementById('mob-menu'),iO=document.getElementById('ic-o'),iC=document.getElementById('ic-c');
-    if(!btn)return;
-    btn.addEventListener('click',()=>{ const h=menu.classList.contains('hidden'); menu.classList.toggle('hidden',!h); iO.classList.toggle('hidden',h); iC.classList.toggle('hidden',!h); });
+    if(btn) {
+        btn.addEventListener('click',()=>{ const h=menu.classList.contains('hidden'); menu.classList.toggle('hidden',!h); iO.classList.toggle('hidden',h); iC.classList.toggle('hidden',!h); });
+    }
     window.addEventListener('scroll',()=>{ document.getElementById('navbar').classList.toggle('shadow-md',scrollY>10); },{passive:true});
+
+    // AJAX Cart Add
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    const cartBadge = document.getElementById('cart-badge');
+    const cartIcon = document.getElementById('cart-icon');
+
+    document.querySelectorAll('form[action*="/cart/add"]').forEach(form => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button[type="submit"]');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph ph-spinner animate-spin"></i>';
+
+            try {
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    }
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    // Update count
+                    if (cartBadge) {
+                        cartBadge.textContent = data.cartCount;
+                        cartBadge.classList.remove('hidden');
+                    }
+
+                    // Fly animation
+                    if (cartIcon && window.innerWidth >= 768) { // Only animate on desktop where icon is visible
+                        const btnRect = btn.getBoundingClientRect();
+                        const targetRect = cartIcon.getBoundingClientRect();
+                        
+                        const flyingIcon = document.createElement('div');
+                        flyingIcon.innerHTML = '<i class="ph ph-shopping-bag text-white text-xs"></i>';
+                        flyingIcon.className = 'fixed z-[100] bg-[#1d2e24] w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-all duration-700 ease-in-out pointer-events-none';
+                        flyingIcon.style.left = btnRect.left + 'px';
+                        flyingIcon.style.top = btnRect.top + 'px';
+                        document.body.appendChild(flyingIcon);
+
+                        // Trigger reflow
+                        void flyingIcon.offsetWidth;
+
+                        flyingIcon.style.left = targetRect.left + 'px';
+                        flyingIcon.style.top = targetRect.top + 'px';
+                        flyingIcon.style.transform = 'scale(0.2)';
+                        flyingIcon.style.opacity = '0';
+
+                        setTimeout(() => {
+                            flyingIcon.remove();
+                            cartIcon.style.transform = 'scale(1.3)';
+                            cartIcon.style.color = '#1d2e24';
+                            setTimeout(() => {
+                                cartIcon.style.transform = 'scale(1)';
+                            }, 300);
+                        }, 700);
+                    }
+                } else {
+                    alert(data.error || 'Terjadi kesalahan.');
+                }
+            } catch (err) {
+                alert('Terjadi kesalahan koneksi.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+            }
+        });
+    });
 })();
 </script>
 @stack('scripts')

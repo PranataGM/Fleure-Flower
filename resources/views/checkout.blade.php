@@ -27,11 +27,14 @@
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Kota *</label>
-                            <input type="text" name="city" value="{{ old('city') }}" required class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
+                            <input type="text" name="city" value="Yogyakarta" readonly class="w-full border border-gray-300 px-4 py-3 text-sm bg-gray-50 focus:outline-none focus:border-[#1d2e24] transition text-gray-500">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Alamat Pengiriman Lengkap *</label>
-                            <textarea name="shipping_address" rows="3" required class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition resize-none">{{ old('shipping_address') }}</textarea>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600">Alamat Pengiriman Lengkap *</label>
+                                <span class="text-[9px] text-red-500 font-bold uppercase tracking-widest"><i class="ph-fill ph-warning-circle"></i> Hanya area dalam Kota Jogja</span>
+                            </div>
+                            <textarea name="shipping_address" rows="3" required class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition resize-none" placeholder="Detail alamat pengiriman di Yogyakarta...">{{ old('shipping_address') }}</textarea>
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Catatan (Opsional)</label>

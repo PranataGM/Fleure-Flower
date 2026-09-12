@@ -14,6 +14,7 @@ class CartController extends Controller {
 
     public function add(Request $request, Product $product) {
         if ($product->status !== 'available') {
+            if ($request->expectsJson()) return response()->json(['error' => 'Produk ini sudah tidak tersedia.'], 400);
             return back()->with('error', 'Produk ini sudah tidak tersedia.');
         }
         $cart = session('cart', []);
@@ -31,6 +32,9 @@ class CartController extends Controller {
             ];
         }
         session(['cart' => $cart]);
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => '"' . $product->name . '" ditambahkan ke keranjang.', 'cartCount' => count($cart)]);
+        }
         return back()->with('success', '"' . $product->name . '" ditambahkan ke keranjang.');
     }
 
