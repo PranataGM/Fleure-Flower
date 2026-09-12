@@ -183,7 +183,7 @@
                 </div>
             </div>
             <div class="w-full md:w-1/2 img-wrap h-72 md:h-[520px]">
-                <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?q=80&w=900" alt="Florist merangkai bunga" class="w-full h-full object-cover img-zoom">
+                <img src="https://images.unsplash.com/photo-1581078426770-6d336e5de7bf?q=80&w=900" alt="Florist merangkai bunga" class="w-full h-full object-cover img-zoom">
             </div>
         </div>
     </div>

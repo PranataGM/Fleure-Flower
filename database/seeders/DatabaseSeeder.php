@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'category' => 'fresh_flower',
                 'description' => 'Mawar putih premium segar yang melambangkan kemurnian dan ketulusan, cocok untuk dekorasi rumah minimalis.',
                 'price' => 400000,
-                'image' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800',
+                'image' => 'https://images.unsplash.com/photo-1513619574244-a0eb867ee656?q=80&w=800',
                 'status' => 'available'
             ],
             [
@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
                 'category' => 'buket',
                 'description' => 'Buket mawar merah klasik yang dirangkai mewah dengan kertas wrapping hitam eksklusif.',
                 'price' => 425000,
-                'image' => 'https://images.unsplash.com/photo-1548810245-cda226b5c3be?q=80&w=800',
+                'image' => 'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=800',
                 'status' => 'available'
             ]
         ];
