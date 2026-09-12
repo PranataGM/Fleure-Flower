@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', config('app.name'))</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                colors: { 'dg': '#1d2e24', 'mg': '#2a4334', 'cr': '#F4F1EA' },
+                fontFamily: { playfair: ['"Playfair Display"', 'serif'], sans: ['"Montserrat"', 'sans-serif'] }
+            }}
+        }
+    </script>
+    <style>
+        html { scroll-behavior:smooth; }
+        body { font-family:'Montserrat',sans-serif; background:#FAF9F6; color:#333; overflow-x:hidden; }
+        h1,h2,h3,h4 { font-family:'Playfair Display',serif; }
+        .btn-primary { display:inline-block; background:#1d2e24; color:#fff; padding:14px 32px; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600; transition:background .3s; }
+        .btn-primary:hover { background:#2a4334; }
+        .btn-outline { display:inline-block; border:1.5px solid #1d2e24; color:#1d2e24; padding:13px 31px; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600; transition:all .3s; }
+        .btn-outline:hover { background:#1d2e24; color:#fff; }
+        .img-wrap { overflow:hidden; }
+        .img-zoom { transition:transform .8s ease; }
+        .img-wrap:hover .img-zoom { transform:scale(1.05); }
+        ::-webkit-scrollbar { width:5px; } ::-webkit-scrollbar-thumb { background:#1d2e24; }
+    </style>
+    @stack('styles')
+</head>
+<body class="flex flex-col min-h-screen">
+
+{{-- NAVBAR --}}
+@php $s = \App\Models\Setting::getSetting(); $cartCount = count(session('cart',[])); @endphp
+<nav class="bg-white sticky top-0 z-50 border-b border-gray-200 transition-shadow duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-24">
+            <a href="{{ route('home') }}" class="flex flex-col leading-none">
+                <span class="font-playfair text-2xl uppercase tracking-wide text-[#1d2e24]">{{ config('app.name') }}</span>
+                <span class="text-[8px] tracking-[0.22em] uppercase text-gray-400 mt-1 font-sans">Toko Bunga Premium</span>
+            </a>
+            <div class="hidden md:flex items-center gap-10">
+                @foreach([['home','Beranda'],['koleksi','Koleksi']] as [$r,$l])
+                <a href="{{ route($r) }}" class="text-[11px] tracking-[0.14em] uppercase font-semibold {{ request()->routeIs($r) ? 'text-[#1d2e24] border-b-2 border-[#1d2e24]' : 'text-gray-600 border-b-2 border-transparent' }} hover:text-[#1d2e24] hover:border-[#1d2e24] py-2 transition-all">{{ $l }}</a>
+                @endforeach
+                <a href="{{ route('home') }}#tentang" class="text-[11px] tracking-[0.14em] uppercase font-semibold text-gray-600 border-b-2 border-transparent hover:text-[#1d2e24] hover:border-[#1d2e24] py-2 transition-all">Tentang Kami</a>
+                <a href="{{ route('home') }}#kontak" class="text-[11px] tracking-[0.14em] uppercase font-semibold text-gray-600 border-b-2 border-transparent hover:text-[#1d2e24] hover:border-[#1d2e24] py-2 transition-all">Kontak</a>
+            </div>
+            <div class="hidden md:flex items-center gap-5">
+                <a href="{{ route('cart') }}" class="relative text-gray-600 hover:text-[#1d2e24] transition">
+                    <i class="ph ph-shopping-bag text-xl"></i>
+                    @if($cartCount > 0)
+                    <span class="absolute -top-2 -right-2 bg-[#1d2e24] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{{ $cartCount }}</span>
+                    @endif
+                </a>
+                @if($s)
+                <a href="https://instagram.com/{{ ltrim($s->instagram,'@') }}" target="_blank" class="text-gray-600 hover:text-[#1d2e24] transition"><i class="ph ph-instagram-logo text-xl"></i></a>
+                @endif
+            </div>
+            <button id="mob-btn" class="md:hidden text-gray-700 p-2"><i class="ph ph-list text-2xl" id="ic-o"></i><i class="ph ph-x text-2xl hidden" id="ic-c"></i></button>
+        </div>
+    </div>
+    <div id="mob-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+        <div class="px-4 py-5 space-y-1">
+            <a href="{{ route('home') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-house"></i> Beranda</a>
+            <a href="{{ route('koleksi') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-flower"></i> Koleksi</a>
+            <a href="{{ route('home') }}#tentang" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-info"></i> Tentang Kami</a>
+            <a href="{{ route('home') }}#kontak" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-map-pin"></i> Kontak</a>
+            <a href="{{ route('cart') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-[#F4F1EA] rounded"><i class="ph ph-shopping-bag"></i> Keranjang @if($cartCount > 0)({{ $cartCount }})@endif</a>
+            @if($s)<div class="pt-3"><a href="https://wa.me/{{ ltrim($s->whatsapp,'0') }}" class="flex items-center justify-center gap-2 bg-[#1d2e24] text-white py-3 text-[11px] font-bold uppercase tracking-widest"><i class="ph ph-whatsapp-logo"></i> Hubungi Kami</a></div>@endif
+        </div>
+    </div>
+</nav>
+
+@if(session('success'))<div class="bg-green-50 border-b border-green-200 text-green-700 px-4 py-3 text-sm text-center font-medium"><i class="ph ph-check-circle mr-1"></i>{{ session('success') }}</div>@endif
+@if(session('error'))<div class="bg-red-50 border-b border-red-200 text-red-600 px-4 py-3 text-sm text-center font-medium"><i class="ph ph-warning-circle mr-1"></i>{{ session('error') }}</div>@endif
+
+<main class="flex-1">@yield('content')</main>
+
+{{-- FOOTER --}}
+@if($s)
+<footer class="bg-[#1d2e24] text-white pt-16 pb-8 border-t-8 border-[#2a4334]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <p class="font-playfair text-xl uppercase tracking-wider mb-1">{{ config('app.name') }}</p>
+                <p class="text-[8px] tracking-[0.2em] text-gray-400 mb-5">Toko Bunga Premium</p>
+                <p class="text-gray-400 text-xs font-light leading-relaxed mb-5">Melayani pesanan bunga untuk seluruh momen spesial Anda dengan dedikasi penuh setiap harinya.</p>
+                <div class="flex gap-4">
+                    <a href="https://instagram.com/{{ ltrim($s->instagram,'@') }}" class="text-gray-400 hover:text-white transition"><i class="ph ph-instagram-logo text-xl"></i></a>
+                    <a href="https://wa.me/{{ ltrim($s->whatsapp,'0') }}" class="text-gray-400 hover:text-white transition"><i class="ph ph-whatsapp-logo text-xl"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold tracking-[0.15em] uppercase mb-6">Katalog</h4>
+                <ul class="space-y-3 text-gray-400 text-xs">
+                    <li><a href="{{ route('koleksi') }}?filter=buket" class="hover:text-white transition">Buket Bunga</a></li>
+                    <li><a href="{{ route('koleksi') }}?filter=fresh_flower" class="hover:text-white transition">Fresh Flower</a></li>
+                    <li><a href="{{ route('koleksi') }}?filter=amplop" class="hover:text-white transition">Kartu & Amplop</a></li>
+                    <li><a href="{{ route('koleksi') }}" class="hover:text-white transition">Semua Koleksi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold tracking-[0.15em] uppercase mb-6">Pembelian</h4>
+                <ul class="space-y-3 text-gray-400 text-xs">
+                    <li><a href="{{ route('cart') }}" class="hover:text-white transition">Keranjang Belanja</a></li>
+                    <li><a href="{{ route('checkout') }}" class="hover:text-white transition">Checkout</a></li>
+                    <li><a href="{{ route('home') }}#kontak" class="hover:text-white transition">Kontak & Lokasi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold tracking-[0.15em] uppercase mb-6">Kontak</h4>
+                <ul class="space-y-4 text-gray-400 text-xs">
+                    <li class="flex items-start gap-3"><i class="ph ph-whatsapp-logo text-lg mt-0.5 text-[#1d2e24] bg-white/10 p-0.5"></i><a href="https://wa.me/{{ ltrim($s->whatsapp,'0') }}" class="hover:text-white">{{ $s->whatsapp }}</a></li>
+                    <li class="flex items-start gap-3"><i class="ph ph-map-pin text-lg mt-0.5"></i><span class="leading-relaxed">{{ $s->address }}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-14 pt-8 border-t border-[#2a4334] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. Seluruh hak cipta dilindungi.</p>
+        </div>
+    </div>
+</footer>
+@endif
+
+<script>
+(function(){
+    const btn=document.getElementById('mob-btn'),menu=document.getElementById('mob-menu'),iO=document.getElementById('ic-o'),iC=document.getElementById('ic-c');
+    if(!btn)return;
+    btn.addEventListener('click',()=>{ const h=menu.classList.contains('hidden'); menu.classList.toggle('hidden',!h); iO.classList.toggle('hidden',h); iC.classList.toggle('hidden',!h); });
+    window.addEventListener('scroll',()=>{ document.getElementById('navbar').classList.toggle('shadow-md',scrollY>10); },{passive:true});
+})();
+</script>
+@stack('scripts')
+</body>
+</html>
