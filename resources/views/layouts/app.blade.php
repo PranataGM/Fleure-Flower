@@ -51,24 +51,15 @@
             </div>
             <div class="hidden md:flex items-center gap-5">
                 @auth
-                    <div class="relative group">
-                        <button class="text-gray-600 hover:text-[#1d2e24] transition flex items-center gap-1">
-                            @if(auth()->user()->avatar)
-                                <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="w-6 h-6 rounded-full">
-                            @else
-                                <i class="ph ph-user text-xl"></i>
-                            @endif
-                        </button>
-                        <div class="absolute right-0 mt-2 w-48 bg-white border border-gray-100 shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                            <div class="px-4 py-3 border-b border-gray-50">
-                                <p class="text-xs font-semibold text-[#1d2e24] truncate">{{ auth()->user()->name }}</p>
-                            </div>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="w-full text-left px-4 py-3 text-xs text-red-600 hover:bg-gray-50 transition"><i class="ph ph-sign-out mr-1"></i> Keluar</button>
-                            </form>
-                        </div>
-                    </div>
+                    <a href="{{ route('profile') }}" class="text-gray-600 hover:text-[#1d2e24] transition flex items-center" title="Profil">
+                        @if(Str::startsWith(auth()->user()->avatar, 'http'))
+                            <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="w-6 h-6 rounded-full object-cover border border-gray-200" referrerpolicy="no-referrer" onerror="this.outerHTML='<i class=\'ph ph-user text-xl\'></i>'">
+                        @elseif(auth()->user()->avatar)
+                            <i class="ph {{ auth()->user()->avatar }} text-xl"></i>
+                        @else
+                            <i class="ph ph-user text-xl"></i>
+                        @endif
+                    </a>
                 @else
                     <a href="{{ route('login') }}" class="text-gray-600 hover:text-[#1d2e24] transition" title="Login"><i class="ph ph-user text-xl"></i></a>
                 @endauth
@@ -96,8 +87,35 @@
     </div>
 </nav>
 
-@if(session('success'))<div class="bg-green-50 border-b border-green-200 text-green-700 px-4 py-3 text-sm text-center font-medium"><i class="ph ph-check-circle mr-1"></i>{{ session('success') }}</div>@endif
-@if(session('error'))<div class="bg-red-50 border-b border-red-200 text-red-600 px-4 py-3 text-sm text-center font-medium"><i class="ph ph-warning-circle mr-1"></i>{{ session('error') }}</div>@endif
+<div id="toast-container" class="fixed top-28 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
+    @if(session('success'))
+    <div class="toast-message bg-green-600 text-white px-4 py-3 text-sm rounded shadow-lg flex items-center gap-2 transform transition-all duration-300 translate-x-full opacity-0 pointer-events-auto">
+        <i class="ph ph-check-circle text-lg"></i> {{ session('success') }}
+    </div>
+    @endif
+    @if(session('error'))
+    <div class="toast-message bg-red-600 text-white px-4 py-3 text-sm rounded shadow-lg flex items-center gap-2 transform transition-all duration-300 translate-x-full opacity-0 pointer-events-auto">
+        <i class="ph ph-warning-circle text-lg"></i> {{ session('error') }}
+    </div>
+    @endif
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toasts = document.querySelectorAll('.toast-message');
+        toasts.forEach(toast => {
+            // Animate in
+            setTimeout(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+            
+            // Disappear after 1 second (1000ms)
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500); // Wait 1.5 seconds total so user can read it
+        });
+    });
+</script>
 
 <main class="flex-1">@yield('content')</main>
 
