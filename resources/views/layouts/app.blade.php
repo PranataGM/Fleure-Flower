@@ -140,7 +140,7 @@
     document.querySelectorAll('form[action*="/cart/add"]').forEach(form => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = form.querySelector('button[type="submit"]');
+            const btn = form.querySelector('button');
             const originalHTML = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<i class="ph ph-spinner animate-spin"></i>';
