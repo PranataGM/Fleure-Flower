@@ -25,8 +25,8 @@
         <div class="product-item group flex flex-col" data-category="{{ $p->category }}">
             <div class="img-wrap aspect-[3/4] bg-gray-100 relative">
                 <img src="{{ $p->image_url }}" alt="{{ $p->name }}" class="w-full h-full object-cover img-zoom" loading="lazy">
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/8 transition-all duration-500 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100">
-                    <div class="flex gap-2">
+                <div class="absolute inset-0 bg-black/0 md:group-hover:bg-black/8 transition-all duration-500 flex items-end justify-center pb-4 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                    <div class="flex flex-wrap justify-center gap-1.5 px-2">
                         <form action="{{ route('cart.add', $p) }}" method="POST">
                             @csrf
                             <button class="bg-white text-[#1d2e24] text-[9px] font-bold uppercase tracking-widest px-3 py-2 hover:bg-[#1d2e24] hover:text-white transition flex items-center gap-1"><i class="ph ph-shopping-bag"></i> Beli</button>

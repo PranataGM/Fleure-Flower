@@ -58,16 +58,16 @@
                     <span class="text-[9px] uppercase tracking-widest text-gray-400 font-semibold mb-1">{{ $p->category_label }}</span>
                     <h3 class="font-playfair text-base text-gray-900 mb-1 group-hover:text-[#1d2e24] transition">{{ $p->name }}</h3>
                     <p class="text-xs text-gray-500 font-light leading-relaxed mb-4 line-clamp-2 flex-grow">{{ $p->description }}</p>
-                    <div class="flex items-center justify-between border-t border-gray-100 pt-3 mt-auto gap-2">
+                    <div class="flex flex-wrap items-center justify-between border-t border-gray-100 pt-3 mt-auto gap-y-2 gap-x-1">
                         <span class="text-sm font-bold text-[#1d2e24] shrink-0">{{ $p->formatted_price }}</span>
-                        <div class="flex gap-2">
+                        <div class="flex gap-1.5 shrink-0">
                             <form action="{{ route('cart.add', $p) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-gray-500 hover:text-[#1d2e24] transition border border-gray-200 hover:border-[#1d2e24] px-2 py-1">
+                                <button type="submit" class="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-gray-500 hover:text-[#1d2e24] transition border border-gray-200 hover:border-[#1d2e24] px-1.5 py-1">
                                     <i class="ph ph-shopping-bag text-xs"></i> Beli
                                 </button>
                             </form>
-                            <a href="{{ $waLink }}" target="_blank" class="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-[#1d2e24] hover:opacity-70 transition border border-[#1d2e24] px-2 py-1">
+                            <a href="{{ $waLink }}" target="_blank" class="flex items-center justify-center text-[9px] font-bold uppercase tracking-widest text-[#1d2e24] hover:opacity-70 transition border border-[#1d2e24] w-6 h-6 shrink-0">
                                 <i class="ph ph-whatsapp-logo text-xs"></i>
                             </a>
                         </div>
@@ -146,7 +146,7 @@
                     <span class="text-[9px] uppercase tracking-widest text-gray-400 font-semibold">{{ $p->category_label }}</span>
                     <h3 class="font-playfair text-sm mt-1 group-hover:text-[#1d2e24] transition">{{ $p->name }}</h3>
                     <p class="text-xs text-gray-500 font-light mt-1">{{ $p->formatted_price }}</p>
-                    <div class="flex gap-2 justify-center mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div class="flex flex-wrap gap-2 justify-center mt-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                         <form action="{{ route('cart.add', $p) }}" method="POST">
                             @csrf
                             <button class="btn-primary !px-4 !py-2 !text-[9px]"><i class="ph ph-shopping-bag"></i> Beli</button>
