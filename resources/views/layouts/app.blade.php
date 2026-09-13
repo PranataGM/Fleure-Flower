@@ -30,11 +30,11 @@
     @stack('styles')
 </head>
 <body class="bg-white text-gray-800 font-sans antialiased">
-<div id="app-wrapper" class="flex flex-col min-h-screen w-full overflow-x-hidden relative">
+<div id="app-wrapper" class="flex flex-col min-h-screen w-full overflow-x-hidden relative pt-24">
 
 {{-- NAVBAR --}}
 @php $s = \App\Models\Setting::getSetting(); $cartCount = count(session('cart',[])); @endphp
-<nav class="bg-white sticky top-0 z-50 border-b border-gray-200 transition-shadow duration-300" id="navbar">
+<nav class="bg-white/85 backdrop-blur-md fixed top-0 left-0 w-full z-50 border-b border-gray-200/60 shadow-sm transition-all duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-24">
             <a href="{{ route('home') }}" class="flex flex-col leading-none">
@@ -71,7 +71,7 @@
             <button id="mob-btn" class="md:hidden text-gray-700 p-2"><i class="ph ph-list text-2xl" id="ic-o"></i><i class="ph ph-x text-2xl hidden" id="ic-c"></i></button>
         </div>
     </div>
-    <div id="mob-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+    <div id="mob-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200/60 absolute w-full shadow-lg">
         <div class="px-4 py-5 space-y-1">
             <a href="{{ route('home') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-gray-50 rounded"><i class="ph ph-house"></i> Beranda</a>
             <a href="{{ route('koleksi') }}" class="flex items-center gap-3 px-4 py-3 text-[11px] tracking-widest uppercase font-semibold text-gray-700 hover:text-[#1d2e24] hover:bg-gray-50 rounded"><i class="ph ph-flower"></i> Koleksi</a>
