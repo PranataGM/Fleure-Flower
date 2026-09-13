@@ -50,6 +50,11 @@
                 <a href="{{ route('home') }}#kontak" class="text-[11px] tracking-[0.14em] uppercase font-semibold text-gray-600 border-b-2 border-transparent hover:text-[#1d2e24] hover:border-[#1d2e24] py-2 transition-all">Kontak</a>
             </div>
             <div class="hidden md:flex items-center gap-5">
+                <a href="{{ route('cart') }}" class="relative text-gray-600 hover:text-[#1d2e24] transition" id="cart-icon-container">
+                    <i class="ph ph-shopping-bag text-xl" id="cart-icon" style="transition: transform 0.3s ease;"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-[#1d2e24] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center {{ $cartCount > 0 ? '' : 'hidden' }}">{{ $cartCount }}</span>
+                </a>
+                
                 @auth
                     <a href="{{ route('profile') }}" class="text-gray-600 hover:text-[#1d2e24] transition flex items-center" title="Profil">
                         @if(Str::startsWith(auth()->user()->avatar, 'http'))
@@ -63,14 +68,6 @@
                 @else
                     <a href="{{ route('login') }}" class="text-gray-600 hover:text-[#1d2e24] transition" title="Login"><i class="ph ph-user text-xl"></i></a>
                 @endauth
-                
-                <a href="{{ route('cart') }}" class="relative text-gray-600 hover:text-[#1d2e24] transition" id="cart-icon-container">
-                    <i class="ph ph-shopping-bag text-xl" id="cart-icon" style="transition: transform 0.3s ease;"></i>
-                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-[#1d2e24] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center {{ $cartCount > 0 ? '' : 'hidden' }}">{{ $cartCount }}</span>
-                </a>
-                @if($s)
-                <a href="https://instagram.com/{{ ltrim($s->instagram,'@') }}" target="_blank" class="text-gray-600 hover:text-[#1d2e24] transition"><i class="ph ph-instagram-logo text-xl"></i></a>
-                @endif
             </div>
             <button id="mob-btn" class="md:hidden text-gray-700 p-2"><i class="ph ph-list text-2xl" id="ic-o"></i><i class="ph ph-x text-2xl hidden" id="ic-c"></i></button>
         </div>
@@ -153,8 +150,8 @@
             <div>
                 <h4 class="text-xs font-bold tracking-[0.15em] uppercase mb-6">Kontak</h4>
                 <ul class="space-y-4 text-gray-400 text-xs">
-                    <li class="flex items-start gap-3"><i class="ph ph-whatsapp-logo text-lg mt-0.5 text-[#1d2e24] bg-white/10 p-0.5"></i><a href="https://wa.me/{{ ltrim($s->whatsapp,'0') }}" class="hover:text-white">{{ $s->whatsapp }}</a></li>
-                    <li class="flex items-start gap-3"><i class="ph ph-map-pin text-lg mt-0.5"></i><span class="leading-relaxed">{{ $s->address }}</span></li>
+                    <li class="flex items-center gap-3"><i class="ph ph-whatsapp-logo text-xl text-green-400"></i><a href="https://wa.me/{{ ltrim($s->whatsapp,'0') }}" class="hover:text-white">{{ $s->whatsapp }}</a></li>
+                    <li class="flex items-start gap-3"><i class="ph ph-map-pin text-xl mt-0.5"></i><span class="leading-relaxed">{{ $s->address }}</span></li>
                 </ul>
             </div>
         </div>
