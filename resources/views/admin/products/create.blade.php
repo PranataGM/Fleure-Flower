@@ -17,7 +17,7 @@
                 <input type="text" name="name" value="{{ old('name') }}" required class="w-full border @error('name') border-red-400 @else border-gray-300 @enderror px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
                 @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
-            <div class="grid grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Kategori *</label>
                     <select name="category" required class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">

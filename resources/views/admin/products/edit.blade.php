@@ -16,12 +16,12 @@
                 <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Nama Produk *</label>
                 <input type="text" name="name" value="{{ old('name',$product->name) }}" required class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
             </div>
-            <div class="grid grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-2">Kategori *</label>
                     <select name="category" required class="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#1d2e24] transition">
-                        <option value="buket" @selected(old('category',$product->category)=='buket')>Buket</option>
-                        <option value="fresh_flower" @selected(old('category',$product->category)=='fresh_flower')>Fresh Flower</option>
+                        <option value="buket" {{ old('category',$product->category)=='buket'?'selected':'' }}>Buket Bunga</option>
+                        <option value="fresh_flower" {{ old('category',$product->category)=='fresh_flower'?'selected':'' }}>Fresh Flower</option>
                         <option value="amplop" @selected(old('category',$product->category)=='amplop')>Amplop / Kartu</option>
                     </select>
                 </div>

@@ -21,8 +21,8 @@
 <body class="bg-[#F4F1EA] flex h-screen overflow-hidden">
 
 {{-- Sidebar --}}
-<div class="w-64 bg-[#1d2e24] text-white flex flex-col h-full flex-shrink-0">
-    <div class="p-8 border-b border-white/10">
+<div id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#1d2e24] text-white flex flex-col h-full transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out">
+    <div class="p-8 border-b border-white/10 flex justify-between items-center">
         <div class="flex items-center gap-3">
             <i class="ph-light ph-flower-lotus text-3xl text-[#a3ad9d]"></i>
             <div>
@@ -30,6 +30,7 @@
                 <p class="text-[8px] tracking-widest text-gray-400 uppercase mt-1">Panel Pengelola</p>
             </div>
         </div>
+        <button id="close-sidebar" class="md:hidden text-gray-400 hover:text-white"><i class="ph ph-x text-2xl"></i></button>
     </div>
     <nav class="flex-1 py-6 px-2 space-y-1">
         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="ph ph-squares-four"></i> Dashboard</a>
@@ -51,11 +52,17 @@
     </div>
 </div>
 
+{{-- Overlay --}}
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+
 {{-- Main --}}
 <div class="flex-1 flex flex-col overflow-hidden">
-    <header class="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center flex-shrink-0">
-        <h2 class="font-playfair text-xl text-[#1d2e24]">@yield('title','Dashboard')</h2>
-        <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-2 text-xs text-gray-500 hover:text-[#1d2e24] uppercase tracking-widest font-semibold transition">
+    <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center gap-4">
+            <button id="open-sidebar" class="md:hidden text-gray-600 hover:text-[#1d2e24]"><i class="ph ph-list text-2xl"></i></button>
+            <h2 class="font-playfair text-xl text-[#1d2e24]">@yield('title','Dashboard')</h2>
+        </div>
+        <a href="{{ route('home') }}" target="_blank" class="hidden sm:flex items-center gap-2 text-xs text-gray-500 hover:text-[#1d2e24] uppercase tracking-widest font-semibold transition">
             <i class="ph ph-arrow-square-out text-base"></i> Lihat Website
         </a>
     </header>
@@ -63,10 +70,25 @@
     @if(session('success'))<div class="mx-8 mt-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-5 py-3 text-sm"><i class="ph ph-check-circle text-xl"></i>{{ session('success') }}</div>@endif
     @if(session('error'))<div class="mx-8 mt-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-600 px-5 py-3 text-sm"><i class="ph ph-warning-circle text-xl"></i>{{ session('error') }}</div>@endif
 
-    <main class="flex-1 overflow-y-auto p-8">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
         @yield('content')
     </main>
 </div>
+<script>
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const openBtn = document.getElementById('open-sidebar');
+    const closeBtn = document.getElementById('close-sidebar');
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+    }
+
+    if(openBtn) openBtn.addEventListener('click', toggleSidebar);
+    if(closeBtn) closeBtn.addEventListener('click', toggleSidebar);
+    if(overlay) overlay.addEventListener('click', toggleSidebar);
+</script>
 @stack('scripts')
 </body>
 </html>

@@ -41,9 +41,9 @@
         </div>
     </div>
 
-    <div class="bg-white border border-gray-200 p-6">
+    <div class="bg-white border border-gray-200 p-6 overflow-x-auto">
         <h3 class="font-playfair text-lg text-[#1d2e24] mb-4">Item Pesanan</h3>
-        <table class="w-full text-sm">
+        <table class="w-full text-sm min-w-[500px]">
             <thead><tr class="border-b border-gray-100">
                 <th class="pb-3 text-left text-[10px] font-bold uppercase tracking-widest text-gray-400">Produk</th>
                 <th class="pb-3 text-right text-[10px] font-bold uppercase tracking-widest text-gray-400">Harga</th>
