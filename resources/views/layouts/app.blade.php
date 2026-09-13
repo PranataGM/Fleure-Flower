@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>@yield('title', config('app.name'))</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         html { scroll-behavior:smooth; }
-        body { font-family:'Montserrat',sans-serif; background:#FFFFFF; color:#333; overflow-x:hidden; }
+        body { font-family:'Montserrat',sans-serif; background:#FFFFFF; color:#333; }
         h1,h2,h3,h4 { font-family:'Playfair Display',serif; }
         .btn-primary { display:inline-block; background:#1d2e24; color:#fff; padding:14px 32px; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600; transition:background .3s; }
         .btn-primary:hover { background:#2a4334; }
@@ -29,7 +29,8 @@
     </style>
     @stack('styles')
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="bg-white text-gray-800 font-sans antialiased">
+<div id="app-wrapper" class="flex flex-col min-h-screen w-full overflow-x-hidden relative">
 
 {{-- NAVBAR --}}
 @php $s = \App\Models\Setting::getSetting(); $cartCount = count(session('cart',[])); @endphp
@@ -160,6 +161,7 @@
 </footer>
 @endif
 
+</div>
 <script>
 (function(){
     const btn=document.getElementById('mob-btn'),menu=document.getElementById('mob-menu'),iO=document.getElementById('ic-o'),iC=document.getElementById('ic-c');

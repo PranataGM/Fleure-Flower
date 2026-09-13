@@ -8,13 +8,13 @@
     <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
     <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
         <div class="max-w-xl text-white">
-            <p class="text-[10px] tracking-[0.3em] uppercase font-semibold text-green-200 mb-6">Toko Bunga Premium</p>
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-playfair leading-[1.08] mb-8">
+            <p class="text-[9px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-semibold text-green-200 mb-4 md:mb-6">Toko Bunga Premium</p>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-playfair leading-[1.1] md:leading-[1.08] mb-6 md:mb-8">
                 Bunga Indah<br>
-                <span class="italic font-light text-4xl md:text-5xl lg:text-6xl text-green-100">untuk Momen Spesial</span>
+                <span class="italic font-light text-3xl md:text-5xl lg:text-6xl text-green-100">untuk Momen Spesial</span>
             </h1>
-            <p class="text-sm font-light leading-relaxed mb-10 text-gray-200 max-w-md">Rangkaian buket bunga segar yang dipilih dan dirangkai dengan penuh perhatian. Hadir untuk menemani setiap momen berharga dalam hidup Anda.</p>
-            <div class="flex flex-col sm:flex-row gap-4">
+            <p class="text-xs md:text-sm font-light leading-relaxed mb-8 md:mb-10 text-gray-200 max-w-md">Rangkaian buket bunga segar yang dipilih dan dirangkai dengan penuh perhatian. Hadir untuk menemani setiap momen berharga dalam hidup Anda.</p>
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <a href="{{ route('koleksi') }}" class="btn-primary text-center">Lihat Koleksi</a>
                 @if($settings)
                 <a href="https://wa.me/{{ ltrim($settings->whatsapp,'0') }}" target="_blank" class="btn-outline !border-white !text-white hover:!bg-white hover:!text-[#1d2e24] text-center flex items-center justify-center gap-2">
@@ -90,7 +90,7 @@
             <div class="w-full md:w-1/2 img-wrap h-72 md:h-[520px]">
                 <img src="https://images.unsplash.com/photo-1572454591674-2739f30d8c40?q=80&w=900" alt="Tentang Kami" class="w-full h-full object-cover img-zoom">
             </div>
-            <div class="w-full md:w-1/2 px-8 md:px-16 py-14 bg-white flex flex-col justify-center border border-gray-100 md:border-l-0">
+            <div class="w-full md:w-1/2 px-6 md:px-16 py-12 md:py-14 bg-white flex flex-col justify-center border border-gray-100 md:border-l-0">
                 <p class="text-[10px] tracking-[0.25em] uppercase text-gray-400 font-semibold mb-5">Tentang Kami</p>
                 <h2 class="text-3xl md:text-4xl font-playfair text-[#1d2e24] mb-6 leading-snug">Lebih dari Sekadar<br>Toko Bunga</h2>
                 <p class="text-gray-600 font-light leading-relaxed mb-5 text-sm">Kami percaya bunga adalah bahasa universal untuk cinta, terima kasih, dan harapan. Setiap tangkai dipilih dengan seksama dan dirangkai dengan sepenuh hati oleh florist kami.</p>
