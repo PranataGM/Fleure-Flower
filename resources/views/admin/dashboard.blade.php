@@ -19,6 +19,28 @@
     @endforeach
 </div>
 
+<!-- REVENUE STATS -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    @foreach([
+        ['Pendapatan Hari Ini', $revenues['daily']],
+        ['Pendapatan Minggu Ini', $revenues['weekly']],
+        ['Pendapatan Bulan Ini', $revenues['monthly']],
+    ] as [$label, $amount])
+    <div class="bg-white border border-gray-200 p-6 flex flex-col justify-center text-center">
+        <p class="text-[11px] font-bold uppercase tracking-widest text-gray-500 mb-2">{{ $label }}</p>
+        <p class="font-playfair text-3xl font-semibold text-[#1d2e24]">Rp {{ number_format($amount, 0, ',', '.') }}</p>
+    </div>
+    @endforeach
+</div>
+
+<!-- REVENUE CHART -->
+<div class="bg-white border border-gray-200 p-6 mb-8">
+    <h3 class="font-playfair text-xl text-[#1d2e24] mb-4">Grafik Pendapatan (7 Hari Terakhir)</h3>
+    <div class="w-full h-80">
+        <canvas id="revenueChart"></canvas>
+    </div>
+</div>
+
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="bg-white border border-gray-200 p-6">
         <h3 class="font-playfair text-lg text-[#1d2e24] mb-4">Aksi Cepat</h3>
@@ -60,3 +82,54 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const chartData = @json($chartData);
+    
+    // Reverse the arrays so the oldest date is on the left
+    const labels = chartData.labels.reverse();
+    const data = chartData.data.reverse();
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Pendapatan (Rp)',
+                data: data,
+                borderColor: '#1d2e24',
+                backgroundColor: 'rgba(29, 46, 36, 0.1)',
+                borderWidth: 2,
+                pointBackgroundColor: '#1d2e24',
+                pointRadius: 4,
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'Rp ' + value.toLocaleString('id-ID');
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+@endpush
