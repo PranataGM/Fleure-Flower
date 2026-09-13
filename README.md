@@ -1,195 +1,82 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/Laravel-v13-red?style=for-the-badge&logo=laravel" />
-  <img src="https://img.shields.io/badge/PHP-8.5-blue?style=for-the-badge&logo=php" />
-  <img src="https://img.shields.io/badge/Midtrans-Payment%20Gateway-green?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Tailwind%20CSS-CDN-38bdf8?style=for-the-badge&logo=tailwindcss" />
-  <img src="https://img.shields.io/badge/MySQL-Database-4479a1?style=for-the-badge&logo=mysql" />
-</p>
+# 🌸 Fleure Flower - Premium Florist E-Commerce
 
-<h1 align="center">🌸 Fleure Flower</h1>
-<p align="center"><strong>Toko Bunga Premium — Laravel + Midtrans</strong></p>
-<p align="center">Website katalog dan toko bunga premium dengan sistem pembayaran Midtrans, panel admin lengkap, keranjang belanja, dan desain editorial minimalis.</p>
-
----
+Fleure Flower adalah aplikasi e-Commerce toko bunga premium yang dibangun menggunakan framework **Laravel 11**. Aplikasi ini dirancang untuk memberikan pengalaman berbelanja bunga (buket, fresh flower, dan kartu ucapan) yang elegan, responsif, dan aman.
 
 ## ✨ Fitur Utama
 
-| Fitur | Status |
-|---|---|
-| 🏠 Halaman Beranda dengan Hero Section | ✅ |
-| 🌸 Katalog Koleksi + Filter Kategori | ✅ |
-| 🛒 Keranjang Belanja (Session-based) | ✅ |
-| 💳 Checkout + Payment via Midtrans Snap | ✅ |
-| 🔔 Webhook Midtrans (auto-update status) | ✅ |
-| 🗺️ Kontak & Google Maps embed | ✅ |
-| 🛠️ Panel Admin — Dashboard, Produk, Pesanan | ✅ |
-| 📦 Upload Foto Produk (storage:link) | ✅ |
-| 📱 Responsif — Mobile, Tablet, Desktop | ✅ |
+### 🛒 Fitur Pelanggan (User)
+*   **Autentikasi Modern:** Mendukung pendaftaran dan login standar (Email/Password) serta **Login via Google** (OAuth 2.0 menggunakan Laravel Socialite).
+*   **Manajemen Profil:** Pengguna dapat memperbarui nama (dengan batasan 24 jam), bio profil, serta memilih avatar kustom dari *icon library* bawaan atau menggunakan foto profil Google.
+*   **Katalog Interaktif:** Menampilkan koleksi bunga dengan fitur filter berdasarkan kategori (*Buket, Fresh Flower, Amplop/Kartu*).
+*   **Keranjang Belanja (Cart):** Penyimpanan keranjang belanja terintegrasi dengan *session* untuk kemudahan *checkout*.
+*   **Checkout & Payment Gateway:** Integrasi **Midtrans** (Snap API) memungkinkan pelanggan melakukan pembayaran dengan berbagai metode (GoPay, Transfer Bank, Kartu Kredit, dll) secara *real-time*.
+
+### 📊 Fitur Admin Panel
+*   **Dashboard Analitik:** Menampilkan statistik jumlah produk, total pesanan, pesanan terbayar, beserta **Grafik Pendapatan 7 Hari Terakhir** (menggunakan *Chart.js*).
+*   **Manajemen Produk (CRUD):** Tambah, edit, hapus, dan perbarui status produk (Tersedia / Sold Out). Mendukung pengunggahan foto produk.
+*   **Manajemen Pesanan:** Melihat detail pesanan masuk, memantau status pembayaran secara *real-time*, dan mengubah status pengiriman barang.
+*   **Pengaturan Toko:** Mengelola nama toko, alamat, kontak WhatsApp, dan Instagram yang akan tercermin langsung pada halaman *footer* pengunjung.
+
+### 🛡️ Keamanan & Performa (Security Standards)
+*   **Proteksi Brute-Force (Rate Limiting):** Membatasi jumlah percobaan *login* yang gagal berturut-turut pada akun Pelanggan maupun Admin untuk mencegah serangan *brute-force* bot.
+*   **Database Race-Condition Lock (Pessimistic Locking):** Menggunakan `DB::transaction()` dan `lockForUpdate()` pada *webhook/callback* Midtrans untuk mencegah anomali pemrosesan data (pemrosesan ganda) saat *traffic* tinggi.
+*   **XSS & CSRF Protection:** Seluruh form dilindungi dengan token `@csrf`. Input pengguna pada saat *checkout* disanitasi ketat menggunakan `strip_tags()` untuk mencegah injeksi skrip HTML/JS.
+*   **Graceful Error Handling:** Implementasi *try-catch* pada integrasi API pihak ketiga (Midtrans) sehingga jika server *payment gateway* sedang *down*, pelanggan tidak akan mendapati layar *error crash*, melainkan notifikasi yang sopan untuk mencoba lagi.
+*   **Strict Unique ID Generation:** Pembuatan kode struk (Order ID) dijamin unik dengan sistem *do-while existence check*.
 
 ---
 
-## 🎨 Design System
+## 🚀 Panduan Instalasi (Development)
 
-- **Font**: Playfair Display (heading) + Montserrat (body)
-- **Warna Utama**: `#1d2e24` (dark green) · `#F4F1EA` (cream) · `#2a4334`
-- **Style**: Editorial, minimalis, premium
-- **Icons**: [Phosphor Icons](https://phosphoricons.com/)
-- **CSS**: [Tailwind CSS CDN](https://tailwindcss.com/)
-- **Bahasa**: Indonesia
+1. **Clone Repository:**
+   ```bash
+   git clone https://github.com/PranataGM/Fleure-Flower.git
+   cd Fleure-Flower
+   ```
 
----
+2. **Install Dependencies:**
+   ```bash
+   composer install
+   npm install
+   ```
 
-## 🚀 Instalasi Lokal
+3. **Environment Setup:**
+   Salin file konfigurasi lingkungan dan sesuaikan nilainya:
+   ```bash
+   cp .env.example .env
+   ```
+   *Pastikan Anda telah mengisi kredensial database, Midtrans Server Key, dan Google OAuth Client ID.*
 
-### Prasyarat
-- PHP >= 8.2
-- Composer
-- MySQL
-- Node.js (opsional untuk dev)
+4. **Generate Application Key:**
+   ```bash
+   php artisan key:generate
+   ```
 
-### Langkah-langkah
+5. **Migrasi Database & Seeder:**
+   ```bash
+   php artisan migrate --seed
+   ```
 
-```bash
-# 1. Clone repository
-git clone https://github.com/PranataGM/Fleure-Flower.git
-cd Fleure-Flower
+6. **Storage Link:**
+   ```bash
+   php artisan storage:link
+   ```
 
-# 2. Install dependencies
-composer install
-
-# 3. Buat file .env
-cp .env.example .env
-
-# 4. Generate app key
-php artisan key:generate
-
-# 5. Edit .env sesuai konfigurasi lokal
-# DB_DATABASE=fleure_flower
-# DB_USERNAME=root
-# DB_PASSWORD=
-
-# 6. Buat database di MySQL, lalu jalankan migration
-php artisan migrate
-
-# 7. Seed data awal (admin + settings)
-php artisan db:seed
-
-# 8. Buat symlink storage
-php artisan storage:link
-
-# 9. Jalankan server
-php artisan serve
-```
+7. **Jalankan Aplikasi:**
+   ```bash
+   npm run dev
+   php artisan serve
+   ```
+   Akses aplikasi di `http://localhost:8000`.
 
 ---
 
-## 💳 Konfigurasi Midtrans
-
-Daftarkan akun di [dashboard.sandbox.midtrans.com](https://dashboard.sandbox.midtrans.com), lalu tambahkan ke `.env`:
-
-```env
-MIDTRANS_SERVER_KEY=SB-Mid-server-xxxxxxxxxxxx
-MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxxxxxxxxx
-MIDTRANS_IS_PRODUCTION=false
-MIDTRANS_SNAP_URL=https://app.sandbox.midtrans.com/snap/snap.js
-```
-
-**Webhook URL** (daftarkan di dashboard Midtrans):
-```
-http://localhost/midtrans/callback
-```
+## 🛠️ Tech Stack
+*   **Backend:** Laravel 11 (PHP 8.2+)
+*   **Frontend:** Tailwind CSS, Alpine.js, Phosphor Icons, Chart.js
+*   **Database:** MySQL
+*   **Payment Gateway:** Midtrans Snap API
+*   **OAuth:** Google Socialite
 
 ---
-
-## 🔐 Akses Admin
-
-| URL | Keterangan |
-|---|---|
-| `/admin` | Dashboard admin |
-| `/admin/login` | Login admin |
-
-**Kredensial default:**
-- Username: `admin`
-- Password: `admin123`
-
-> ⚠️ **Ubah password setelah pertama kali login!**
-
----
-
-## 🗃️ Struktur Database
-
-```
-admins          — akun admin
-products        — data produk (buket, fresh_flower, amplop)
-orders          — pesanan pelanggan
-order_items     — detail item per pesanan
-settings        — pengaturan toko (WhatsApp, Instagram, Alamat)
-```
-
----
-
-## 📁 Struktur Folder Utama
-
-```
-app/
-├── Http/Controllers/
-│   ├── Admin/          — AuthController, DashboardController, dll
-│   ├── CartController.php
-│   ├── CheckoutController.php
-│   ├── HomeController.php
-│   └── KoleksiController.php
-├── Http/Middleware/
-│   └── AdminAuthenticated.php
-└── Models/
-    ├── Admin.php
-    ├── Order.php / OrderItem.php
-    ├── Product.php
-    └── Setting.php
-
-resources/views/
-├── layouts/app.blade.php   — Layout publik
-├── home.blade.php
-├── koleksi.blade.php
-├── cart.blade.php
-├── checkout.blade.php
-├── payment.blade.php
-├── order-success.blade.php
-└── admin/
-    ├── layouts/app.blade.php
-    ├── login.blade.php
-    ├── dashboard.blade.php
-    ├── products/ (index, create, edit)
-    ├── orders/ (index, show)
-    └── settings.blade.php
-
-routes/web.php      — Semua route publik & admin
-config/midtrans.php — Konfigurasi Midtrans
-```
-
----
-
-## 🔄 Alur Pembelian
-
-```
-Koleksi → Tambah ke Keranjang → Checkout (isi data) → Halaman Payment → Midtrans Snap → Sukses
-```
-
----
-
-## 📌 Issues & Roadmap
-
-Lihat semua rencana pengembangan di tab [Issues](https://github.com/PranataGM/Fleure-Flower/issues).
-
----
-
-## 🤝 Kontribusi
-
-1. Fork repository
-2. Buat branch baru: `git checkout -b feature/nama-fitur`
-3. Commit: `git commit -m "feat: tambah fitur xyz"`
-4. Push: `git push origin feature/nama-fitur`
-5. Buat Pull Request ke branch `main`
-
----
-
-<p align="center">Made with ❤️ for <strong>Fleure Flower</strong></p>
+*Didesain dan dikembangkan dengan penuh dedikasi untuk kebutuhan e-Commerce modern.*
