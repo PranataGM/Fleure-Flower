@@ -226,11 +226,11 @@
                 <a href="https://wa.me/{{ ltrim($settings->whatsapp,'0') }}" target="_blank" class="btn-primary block text-center">Pesan via WhatsApp</a>
                 @endif
             </div>
-            <div class="md:col-span-2 h-[420px] border border-gray-200">
+            <div class="md:col-span-2 h-[300px] md:h-[420px] border border-gray-200 w-full overflow-hidden [&>iframe]:w-full [&>iframe]:h-full">
                 @if($settings && $settings->maps_embed)
                     {!! $settings->maps_embed !!}
                 @else
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x2e7a5787bd5b6bc5%3A0x217d87bd75ebbb1!2sYogyakarta!5e0!3m2!1sen!2sid!4v1689304928372!5m2!1sen!2sid" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x2e7a5787bd5b6bc5%3A0x217d87bd75ebbb1!2sYogyakarta!5e0!3m2!1sen!2sid!4v1689304928372!5m2!1sen!2sid" style="border:0" allowfullscreen loading="lazy"></iframe>
                 @endif
             </div>
         </div>

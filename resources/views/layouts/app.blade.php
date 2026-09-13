@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', config('app.name'))</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script>
-        tailwind.config = {
-            theme: { extend: {
-                colors: { 'dg': '#1d2e24', 'mg': '#2a4334', 'cr': '#FAFAFA' },
-                fontFamily: { playfair: ['"Playfair Display"', 'serif'], sans: ['"Montserrat"', 'sans-serif'] }
-            }}
-        }
-    </script>
+    
+    {{-- Phosphor Icons --}}
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"></noscript>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         html { scroll-behavior:smooth; }
         body { font-family:'Montserrat',sans-serif; background:#FFFFFF; color:#333; overflow-x:hidden; }
