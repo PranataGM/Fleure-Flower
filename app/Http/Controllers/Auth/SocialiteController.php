@@ -23,11 +23,12 @@ class SocialiteController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user) {
-                // If user exists, just update their google_id and avatar if missing
-                $user->update([
-                    'google_id' => $googleUser->getId(),
-                    'avatar' => $googleUser->getAvatar(),
-                ]);
+                // If user exists, update their google_id, but only update avatar if it's currently empty
+                $updateData = ['google_id' => $googleUser->getId()];
+                if (empty($user->avatar)) {
+                    $updateData['avatar'] = $googleUser->getAvatar();
+                }
+                $user->update($updateData);
             } else {
                 // Create new user
                 $user = User::create([
