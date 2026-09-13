@@ -27,20 +27,29 @@ class CheckoutController extends Controller {
             'notes'            => 'nullable|string|max:500',
         ]);
 
+        $validated['customer_name'] = strip_tags($validated['customer_name']);
+        $validated['shipping_address'] = strip_tags($validated['shipping_address']);
+        $validated['notes'] = strip_tags($validated['notes'] ?? '');
+
         $cart = session('cart', []);
         if (empty($cart)) return redirect()->route('cart');
 
         $total = array_sum(array_map(fn($i) => $i['price'] * $i['qty'], $cart));
 
+        // Generate unique order code
+        do {
+            $orderCode = 'FF-' . strtoupper(Str::random(8));
+        } while (Order::where('order_code', $orderCode)->exists());
+
         $order = Order::create([
-            'order_code'       => 'FF-' . strtoupper(Str::random(8)),
+            'order_code'       => $orderCode,
             'customer_name'    => $validated['customer_name'],
             'customer_phone'   => $validated['customer_phone'],
             'customer_email'   => $validated['customer_email'] ?? null,
             'shipping_address' => $validated['shipping_address'],
             'city'             => $validated['city'],
             'total_amount'     => $total,
-            'notes'            => $validated['notes'] ?? null,
+            'notes'            => $validated['notes'],
         ]);
 
         foreach ($cart as $item) {
@@ -64,7 +73,7 @@ class CheckoutController extends Controller {
             'id'       => (string) $item['id'],
             'price'    => (int) $item['price'],
             'quantity' => $item['qty'],
-            'name'     => substr($item['name'], 0, 50),
+            'name'     => substr(strip_tags($item['name']), 0, 50),
         ], $cart));
 
         $params = [
@@ -80,9 +89,15 @@ class CheckoutController extends Controller {
             'item_details' => $itemDetails,
         ];
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-        $order->update(['snap_token' => $snapToken]);
-        session()->forget('cart');
+        try {
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+            $order->update(['snap_token' => $snapToken]);
+            session()->forget('cart');
+        } catch (\Exception $e) {
+            // Jika midtrans error/lag, pesanan dibatalkan agar user bisa checkout ulang
+            $order->update(['status' => 'cancelled']);
+            return redirect()->route('cart')->with('error', 'Terjadi gangguan pada server pembayaran, silakan coba beberapa saat lagi.');
+        }
 
         return view('payment', [
             'settings'  => Setting::getSetting(),
@@ -95,7 +110,12 @@ class CheckoutController extends Controller {
         \Midtrans\Config::$serverKey    = config('midtrans.server_key');
         \Midtrans\Config::$isProduction = config('midtrans.is_production');
 
-        $notif             = new \Midtrans\Notification();
+        try {
+            $notif = new \Midtrans\Notification();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Invalid notification payload'], 400);
+        }
+
         $orderCode         = $notif->order_id;
         $transactionStatus = $notif->transaction_status;
         $statusCode        = $notif->status_code;
@@ -109,18 +129,24 @@ class CheckoutController extends Controller {
             return response()->json(['message' => 'Invalid signature'], 403);
         }
 
-        $order = Order::where('order_code', $orderCode)->first();
-        if (!$order) return response()->json(['message' => 'Not found'], 404);
+        \Illuminate\Support\Facades\DB::transaction(function () use ($orderCode, $transactionStatus, $paymentType, $notif) {
+            // lockForUpdate mencegah race conditions jika Midtrans mengirim webhook dobel di milidetik yang sama
+            $order = Order::where('order_code', $orderCode)->lockForUpdate()->first();
+            
+            if (!$order) return;
+            // Abaikan jika sudah dibayar sebelumnya
+            if (in_array($order->status, ['paid', 'processing', 'shipped', 'completed'])) return;
 
-        if (in_array($transactionStatus, ['capture', 'settlement'])) {
-            $order->update([
-                'status'         => 'paid',
-                'payment_type'   => $paymentType,
-                'transaction_id' => $notif->transaction_id ?? null,
-            ]);
-        } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
-            $order->update(['status' => 'cancelled']);
-        }
+            if (in_array($transactionStatus, ['capture', 'settlement'])) {
+                $order->update([
+                    'status'         => 'paid',
+                    'payment_type'   => $paymentType,
+                    'transaction_id' => $notif->transaction_id ?? null,
+                ]);
+            } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
+                $order->update(['status' => 'cancelled']);
+            }
+        });
 
         return response()->json(['message' => 'OK']);
     }

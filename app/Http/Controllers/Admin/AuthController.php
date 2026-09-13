@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller {
     public function showLogin() {
@@ -16,8 +17,17 @@ class AuthController extends Controller {
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
+
+        $throttleKey = 'admin_login|' . $request->ip();
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            return back()->withErrors(['username' => "Terlalu banyak percobaan. Coba lagi dalam {$seconds} detik."])->withInput();
+        }
+
         $admin = Admin::where('username', $request->username)->first();
         if ($admin && Hash::check($request->password, $admin->password)) {
+            RateLimiter::clear($throttleKey);
             $request->session()->regenerate();
             session([
                 'admin_logged_in' => true,
@@ -26,6 +36,8 @@ class AuthController extends Controller {
             ]);
             return redirect()->route('admin.dashboard');
         }
+
+        RateLimiter::hit($throttleKey);
         return back()->withErrors(['username' => 'Username atau password salah.'])->withInput();
     }
 
